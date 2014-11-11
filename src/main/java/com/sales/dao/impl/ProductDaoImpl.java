@@ -45,7 +45,10 @@ public class ProductDaoImpl implements ProductDao{
 	 * remove product from database
 	 */
 	public void removeProduct(int id) {
-		sessionFactory.openSession().delete(getProduct(id));
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(getProduct(id));
+		tx.commit();
 
 	}
 
@@ -53,7 +56,10 @@ public class ProductDaoImpl implements ProductDao{
 	 * update product details in database
 	 */
 	public void editProduct(Product product) {
-		sessionFactory.openSession().update(product);		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.update(product);
+		tx.commit();
 	}
 
 	/**

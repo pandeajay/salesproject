@@ -142,5 +142,19 @@ public class SalesTests {
     	AmountAndUnits amtAndUnits = report.get(product.getProductName());
     	assertEquals(amtAndUnits.getUnits(),units);    	
     }
+    
+    /**
+     * test product update
+     */
+    @Test
+    public void testProductUpdate(){
+    	String newProductname = "newName";
+    	Product product = (Product) productDao.listAllProducts().get(0);
+    	product.setProductName(newProductname);
+    	productDao.editProduct(product);    	
+    	Product newProd = (Product) productDao.getProduct(product.getProductId());
+    	assertEquals(newProductname, newProd.getProductName());
+    	
+    } 
 
 }

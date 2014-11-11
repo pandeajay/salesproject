@@ -5,40 +5,51 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javassist.bytecode.Descriptor.Iterator;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
 import com.sales.dao.impl.ProductDaoImpl;
 import com.sales.dao.impl.SalesEntryDaoImpl;
 import com.sales.model.Product;
 import com.sales.model.SalesEntry;
 
+/**
+ * Represents report building class
+ * @author Admin
+ *
+ */
 
 public class ReportBuilder {
 	
 	String newLine = System.getProperty("line.separator");
-	
-	// ApplicationContext ctx  = new FileSystemXmlApplicationContext("E:\\media\\com.salesproject\\spring.xml");
-	ApplicationContext ctx  = new ClassPathXmlApplicationContext("file:spring.xml");
-	SalesEntryDaoImpl salesDao = (SalesEntryDaoImpl) ctx.getBean(SalesEntryDaoImpl.class);	
-	ProductDaoImpl productDao = (ProductDaoImpl) ctx.getBean(ProductDaoImpl.class);	
+	ApplicationContext ctx ;
+	SalesEntryDaoImpl salesDao;	
+	ProductDaoImpl productDao ;	
 
 	
+	/**
+	 * initialize application context and DAO
+	 */
 	public ReportBuilder(){
+		ctx  = new ClassPathXmlApplicationContext("file:spring.xml");
+		salesDao = (SalesEntryDaoImpl) ctx.getBean(SalesEntryDaoImpl.class);	
+		productDao = (ProductDaoImpl) ctx.getBean(ProductDaoImpl.class);	
 	}
 	
+	
+	/**
+	 * Build and Generate report
+	 * @return
+	 */
 	public Map<String, AmountAndUnits> getReport(){			
 		Map<Integer, String> products = getAllProductDetails();		
 		List<SalesEntry> salesList = getAllSales();	
-		Map<String, AmountAndUnits> salesSummary = buildReport(products,salesList);				
-		return salesSummary;
-		
+		return buildReport(products,salesList);				
 	}
 	
+	/**
+	 * get all products id and name
+	 * @return
+	 */
 	public Map<Integer, String> getAllProductDetails(){
 		Map<Integer, String> allProducts = new HashMap<Integer, String>();
 		List<Product> productList = (List<Product>) productDao.listAllProducts();
@@ -52,10 +63,21 @@ public class ReportBuilder {
 		return allProducts;
 	}
 	
+	/**
+	 * get all sales entries from the database
+	 * @return
+	 */
 	public List<SalesEntry> getAllSales(){
 		return (List<SalesEntry>) salesDao.listAllSalesEntry();			
 	}
 	
+	
+	/**
+	 * build the report with product name, units sold and total amount
+	 * @param products
+	 * @param sales
+	 * @return
+	 */
 	public Map<String, AmountAndUnits> buildReport(Map<Integer, String> products,List<SalesEntry> sales) {
 		Map<String, AmountAndUnits> salesReport = new HashMap<String, AmountAndUnits>();
 		for(SalesEntry salesItem : sales){
@@ -72,13 +94,16 @@ public class ReportBuilder {
 		return salesReport;	
 	}
 	
+	
+	/**
+	 * show report to console
+	 * @param salesSummary
+	 */
 	public void printReport(Map<String, AmountAndUnits> salesSummary) {
 		if (salesSummary != null) {
 			System.out.println("Sales Summary :");
-			System.out.println("ProductName" + "\t\t" + "TotalAmount" + "\t\t"
-					+ "UnitsSold");
-			java.util.Iterator<Entry<String, AmountAndUnits>> it = salesSummary
-					.entrySet().iterator();
+			System.out.println("ProductName" + "\t\t" + "TotalAmount" + "\t\t" + "UnitsSold");
+			java.util.Iterator<Entry<String, AmountAndUnits>> it = salesSummary.entrySet().iterator();
 
 			while (it.hasNext()) {
 				Entry<String, AmountAndUnits> entry = it.next();
@@ -96,6 +121,8 @@ public class ReportBuilder {
 		reportBuilder.printReport(reportBuilder.getReport());
 	}
 	
+	
+	//class that represents product total amount and total units
 	public static class AmountAndUnits{
 		public double getAmount() {
 			return amount;

@@ -25,8 +25,7 @@ public class SalesTests {
 	final int numOfSales = numOfProducts * 2 ; 
 	
 	@Before
-	public void setUp()
-	{
+	public void setUp(){
 		ac = new FileSystemXmlApplicationContext("file:spring.xml");
 		assertNotNull(ac);
 		productDao = (ProductDaoImpl) ac.getBean(ProductDaoImpl.class);
@@ -47,7 +46,6 @@ public class SalesTests {
 	public void addProducts(){
 		for(int i = 0 ; i < numOfProducts; i++){
 			Product prod = new Product();
-			//prod.setProductId(i);
 			prod.setProductName("Product"+i);
 			productDao.addProduct(prod);
 		}
@@ -56,6 +54,8 @@ public class SalesTests {
 	public void addSalesEntry(){
 		List<Product> products = (List<Product>) productDao.listAllProducts();
 		for(int i = 0, j = 0 ; i < numOfSales ; i = i+2, j++){
+			//add 2 entries for the same product
+			
 			SalesEntry sale = new SalesEntry();
 			sale.setDateOfSale(new Date(System.currentTimeMillis()));
 			sale.setProductId(products.get(j).getProductId());
@@ -74,17 +74,27 @@ public class SalesTests {
 	}
 
 
-	
+	/**
+	 * test total products against the inserted products being same
+	 */
     @Test
     public void testProductNumbers(){
     	assertTrue(productDao.listAllProducts().size() == numOfProducts );
     }
     
+    
+    /**
+     * test sales entries against the inserted entries being same
+     */
     @Test
     public void testSalesNumber(){  	
     	assertTrue(salesDao.listAllSalesEntry().size() == numOfSales );
     }
     
+    
+    /**
+     * test total entries in the report 
+     */
     @Test
     public void testEnteriesInReport(){    	
     	ReportBuilder reportBuilder = new ReportBuilder();
@@ -92,6 +102,10 @@ public class SalesTests {
     	assertTrue(report.size() == numOfProducts);    	
     }
     
+    
+    /**
+     * test total sales amount for a product against report amount 
+     */
     @Test
     public void testAmountForProduct(){    	
     	ReportBuilder reportBuilder = new ReportBuilder();
@@ -107,6 +121,10 @@ public class SalesTests {
     	assertEquals(amtAndUnits.getAmount(),amount,0.0001);    	
     }
     
+    
+    /**
+     * test total sales units for a product against report units 
+     */
     @Test
     public void testUnitsOfproduct(){    	
     	ReportBuilder reportBuilder = new ReportBuilder();

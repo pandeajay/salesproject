@@ -1,3 +1,6 @@
+package com.sales.tests;
+
+
 import static org.junit.Assert.*;
 
 import java.sql.Date;

@@ -27,7 +27,7 @@ public class SalesTests {
 	@Before
 	public void setUp()
 	{
-		ac = new FileSystemXmlApplicationContext("F:\\sample6\\salesproject\\spring.xml");
+		ac = new FileSystemXmlApplicationContext("file:spring.xml");
 		assertNotNull(ac);
 		productDao = (ProductDaoImpl) ac.getBean(ProductDaoImpl.class);
 		assertNotNull(productDao);
@@ -108,7 +108,7 @@ public class SalesTests {
     }
     
     @Test
-    public void testUnitForproduct(){    	
+    public void testUnitsOfproduct(){    	
     	ReportBuilder reportBuilder = new ReportBuilder();
     	Map<String, AmountAndUnits> report = reportBuilder.getReport();
     	Product product = (Product) productDao.listAllProducts().get(0);

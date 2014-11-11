@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.sales.model.SalesEntry;
 
-
+/**
+ * Represents DAO for SalesEntry
+ * @author Admin
+ *
+ */
 
 public interface SalesEntryDao {	
 	public SalesEntry getSalesEntry(int salesId);

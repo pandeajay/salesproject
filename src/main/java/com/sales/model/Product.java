@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 
 /**
+ * represents product table from the database
  * @author Admin
  *
  */

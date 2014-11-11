@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 
 /**
+ * represents salesentry table from the database
  * @author Admin
  *
  */

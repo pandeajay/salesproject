@@ -2,9 +2,13 @@ package com.sales.dao.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+
 
 import com.sales.dao.ProductDao;
 import com.sales.model.Product;

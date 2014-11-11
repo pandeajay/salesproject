@@ -119,7 +119,6 @@ public class SalesTests {
     	for(SalesEntry sale : sales){
     		amount += sale.getSalesAmount();
     	}
-    	System.out.println("sales size" + sales.size());
     	AmountAndUnits amtAndUnits = report.get(product.getProductName());
     	assertEquals(amtAndUnits.getAmount(),amount,0.0001);    	
     }
@@ -138,7 +137,6 @@ public class SalesTests {
     	for(SalesEntry sale : sales){
     		units += sale.getUnits();
     	}
-    	System.out.println("sales size" + sales.size());
     	AmountAndUnits amtAndUnits = report.get(product.getProductName());
     	assertEquals(amtAndUnits.getUnits(),units);    	
     }
@@ -153,8 +151,17 @@ public class SalesTests {
     	product.setProductName(newProductname);
     	productDao.editProduct(product);    	
     	Product newProd = (Product) productDao.getProduct(product.getProductId());
-    	assertEquals(newProductname, newProd.getProductName());
-    	
+    	assertEquals(newProductname, newProd.getProductName());    	
+    } 
+    
+    @Test
+    public void testRemoveProduct(){
+    	Product product = (Product) productDao.listAllProducts().get(0);
+    	productDao.removeProduct(product.getProductId());    	
+    	Product product2 = productDao.getProduct(product.getProductId());   
+    	assertNull(product2);
+    	productDao.addProduct(product);
+	
     } 
 
 }

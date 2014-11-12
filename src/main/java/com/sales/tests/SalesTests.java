@@ -175,5 +175,63 @@ public class SalesTests {
     	List<Product> products = (List<Product>) productDao.listAllProducts();   
     	assertTrue(products.size() == 0);	
     } 
+    
+    
+ 
+    /**
+     * test adding a new sale entry
+     */
+    @Test
+    public void testAddingSalesEntry(){
+    	SalesEntry sale = new SalesEntry();
+    	sale.setDateOfSale(new Date(System.currentTimeMillis()));
+    	Product product = (Product) productDao.listAllProducts().get(0);
+    	sale.setProductId(product.getProductId());
+    	sale.setSalesAmount(100.5);
+    	sale.setUnits(100);
+    	salesDao.addSalesEntry(sale);
+    	SalesEntry sale2 = salesDao.getSalesEntry(sale.getSalesId());
+    	assertEquals(sale.getSalesAmount(), sale2.getSalesAmount(),0.001);
+    	assertEquals(sale.getUnits(), sale2.getUnits());
+    	assertEquals(sale.getProductId(), sale2.getProductId());
+    } 
+    
+    
+    /**
+     * test updating a sale entry
+     */
+    @Test
+    public void testUpdatingSalesEntry(){
+    	SalesEntry sale = (SalesEntry) salesDao.listAllSalesEntry().get(0);
+    	int oldUnits = sale.getUnits();
+    	int newUnits = oldUnits+10;
+    	sale.setUnits(newUnits);
+    	salesDao.editSalesEntry(sale);
+    	SalesEntry sale2 = salesDao.getSalesEntry(sale.getSalesId());
+    	assertEquals(sale2.getUnits(), newUnits);    	
+    } 
+    
+    
+    /**
+     * test removing a sale entry
+     */
+    @Test
+    public void testRemovingSalesEntry(){
+    	SalesEntry sale = (SalesEntry) salesDao.listAllSalesEntry().get(0);
+    	salesDao.removeSalesEntry(sale.getSalesId());
+    	SalesEntry sale2 = salesDao.getSalesEntry(sale.getSalesId());
+    	assertNull(sale2);    	
+    } 
+    
+    
+    /**
+     * test removing a sale entry
+     */
+    @Test
+    public void testRemovingAllSalesEntry(){
+    	salesDao.deleteAllSalesEntry();
+    	int salesEntrySize = salesDao.listAllSalesEntry().size();
+    	assertEquals(salesEntrySize,0);    	
+    }  
 
 }

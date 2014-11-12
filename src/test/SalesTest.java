@@ -30,12 +30,6 @@ import com.sales.report.ReportBuilder;
  */
 
 
-
-
-/*@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("spring.xml")
-@TransactionConfiguration
-@Transactional */
 public class SalesTest extends TestCase
 {
     /**

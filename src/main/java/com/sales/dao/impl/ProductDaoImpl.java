@@ -53,6 +53,7 @@ public class ProductDaoImpl implements ProductDao{
 		Transaction tx = session.beginTransaction();
 		session.delete(getProduct(id));
 		tx.commit();
+		session.close();
 
 	}
 
@@ -62,8 +63,9 @@ public class ProductDaoImpl implements ProductDao{
 	public void editProduct(Product product) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.update(product);
+		session.update(product);		
 		tx.commit();
+		session.close();
 	}
 
 	/**
@@ -86,5 +88,6 @@ public class ProductDaoImpl implements ProductDao{
 								
 		}
 		tx.commit();	
+		session.close();
 	}	
 }

@@ -50,7 +50,11 @@ public class SalesEntryDaoImpl implements SalesEntryDao {
 	 * add a new sales entry in database
 	 */	
 	public void addSalesEntry(SalesEntry salesEntry) {
-		sessionFactory.openSession().save(salesEntry);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.save(salesEntry);
+		tx.commit();
+		session.close();
 
 	}
 
@@ -58,7 +62,11 @@ public class SalesEntryDaoImpl implements SalesEntryDao {
 	 * remove sales entry from the database
 	 */
 	public void removeSalesEntry(int salesId) {
-		sessionFactory.openSession().delete(getSalesEntry(salesId));
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(getSalesEntry(salesId));
+		tx.commit();
+		session.close();
 
 	}
 
@@ -66,7 +74,11 @@ public class SalesEntryDaoImpl implements SalesEntryDao {
 	 * 	Updates sales entry in the database
 	 */
 	public void editSalesEntry(SalesEntry salesEntry) {
-		sessionFactory.openSession().update(salesEntry);	
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.update(salesEntry);
+		tx.commit();
+		session.close();
 	}
 
 
@@ -89,6 +101,7 @@ public class SalesEntryDaoImpl implements SalesEntryDao {
 								
 		}
 		tx.commit();	
+		session.close();
 	}
 
 	/**

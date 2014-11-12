@@ -154,14 +154,26 @@ public class SalesTests {
     	assertEquals(newProductname, newProd.getProductName());    	
     } 
     
+    /**
+     * test product delete
+     */
     @Test
     public void testRemoveProduct(){
     	Product product = (Product) productDao.listAllProducts().get(0);
     	productDao.removeProduct(product.getProductId());    	
     	Product product2 = productDao.getProduct(product.getProductId());   
     	assertNull(product2);
-    	productDao.addProduct(product);
-	
+    } 
+    
+    /**
+     * test delete all products
+     */
+    @Test
+    public void testDeleteAllProducts(){
+    	Product product = (Product) productDao.listAllProducts().get(0);
+    	productDao.deleteAllProducts();    	
+    	List<Product> products = (List<Product>) productDao.listAllProducts();   
+    	assertTrue(products.size() == 0);	
     } 
 
 }

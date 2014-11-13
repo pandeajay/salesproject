@@ -171,7 +171,6 @@ public class SalesTests {
      */
     @Test
     public void testDeleteAllProducts(){
-    	Product product = (Product) productDao.listAllProducts().get(0);
     	productDao.deleteAllProducts();    	
     	List<Product> products = (List<Product>) productDao.listAllProducts();   
     	assertTrue(products.size() == 0);	

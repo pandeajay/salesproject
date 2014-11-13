@@ -4,12 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
-
 import com.sales.dao.impl.ProductDaoImpl;
 import com.sales.dao.impl.SalesEntryDaoImpl;
 import com.sales.model.Product;
@@ -65,8 +61,7 @@ public class ReportBuilder {
 	public ReportBuilder(){
 		ctx  = new ClassPathXmlApplicationContext("file:spring.xml");
 		productDao = (ProductDaoImpl) ctx.getBean(ProductDaoImpl.class);	
-		salesDao = (com.sales.dao.impl.SalesEntryDaoImpl) ctx.getBean(com.sales.dao.impl.SalesEntryDaoImpl.class);	
-
+		salesDao =   (SalesEntryDaoImpl) ctx.getBean(SalesEntryDaoImpl.class);
 	}
 	
 	

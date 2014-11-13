@@ -71,7 +71,7 @@ public class ProductDaoImpl implements ProductDao{
 	/**
 	 * Get the list of all products from the database
 	 */
-	public List<?> listAllProducts() {
+	public List<Product> listAllProducts() {
 		return sessionFactory.openSession().createQuery("from Product").list();
 	}
 

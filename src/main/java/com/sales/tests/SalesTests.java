@@ -16,8 +16,9 @@ import com.sales.dao.impl.ProductDaoImpl;
 import com.sales.dao.impl.SalesEntryDaoImpl;
 import com.sales.model.Product;
 import com.sales.model.SalesEntry;
+import com.sales.report.AmountAndUnits;
 import com.sales.report.ReportBuilder;
-import com.sales.report.ReportBuilder.AmountAndUnits;
+
 
 
 public class SalesTests {

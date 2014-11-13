@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+
 import com.sales.dao.impl.ProductDaoImpl;
 import com.sales.dao.impl.SalesEntryDaoImpl;
 import com.sales.model.Product;
@@ -26,13 +29,44 @@ public class ReportBuilder {
 	ProductDaoImpl productDao ;	
 
 	
+	public ApplicationContext getCtx() {
+		return ctx;
+	}
+
+
+	public void setCtx(ApplicationContext ctx) {
+		this.ctx = ctx;
+	}
+
+
+	public SalesEntryDaoImpl getSalesDao() {
+		return salesDao;
+	}
+
+
+	public void setSalesDao(SalesEntryDaoImpl salesDao) {
+		this.salesDao = salesDao;
+	}
+
+
+	public ProductDaoImpl getProductDao() {
+		return productDao;
+	}
+
+
+	public void setProductDao(ProductDaoImpl productDao) {
+		this.productDao = productDao;
+	}
+
+
 	/**
 	 * initialize application context and DAO
 	 */
 	public ReportBuilder(){
 		ctx  = new ClassPathXmlApplicationContext("file:spring.xml");
-		salesDao = (SalesEntryDaoImpl) ctx.getBean(SalesEntryDaoImpl.class);	
 		productDao = (ProductDaoImpl) ctx.getBean(ProductDaoImpl.class);	
+		salesDao = (com.sales.dao.impl.SalesEntryDaoImpl) ctx.getBean(com.sales.dao.impl.SalesEntryDaoImpl.class);	
+
 	}
 	
 	
@@ -88,7 +122,10 @@ public class ReportBuilder {
 				salesReport.put(products.get(salesItem.getProductId()), amountUnits);
 				
 			}else{
-				salesReport.put(products.get(salesItem.getProductId()), new AmountAndUnits(salesItem.getSalesAmount(),salesItem.getUnits()));
+				 AmountAndUnits amtAndUnits = new AmountAndUnits();
+				 amtAndUnits.setAmount(salesItem.getSalesAmount());
+				 amtAndUnits.setUnits(salesItem.getUnits());
+				salesReport.put(products.get(salesItem.getProductId()), amtAndUnits );
 			}		
 		}
 		return salesReport;	
@@ -120,34 +157,4 @@ public class ReportBuilder {
 		ReportBuilder reportBuilder = new ReportBuilder();
 		reportBuilder.printReport(reportBuilder.getReport());
 	}
-	
-	
-	//class that represents product total amount and total units
-	public static class AmountAndUnits{
-		public double getAmount() {
-			return amount;
-		}
-
-		public void setAmount(double amount) {
-			this.amount = amount;
-		}
-
-		public int getUnits() {
-			return units;
-		}
-
-		public void setUnits(int units) {
-			this.units = units;
-		}
-
-		double amount ;
-		int units;
-		
-		public AmountAndUnits(double amount, int units){
-			this.amount = amount;
-			this.units = units;
-		}
-		
-	}
-
 }
